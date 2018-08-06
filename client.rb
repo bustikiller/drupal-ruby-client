@@ -1,10 +1,19 @@
 require 'io/console'
 require 'httparty'
 require 'cgi'
-requore
+require 'singleton'
+
+require_relative 'node_loader'
 
 class Client
-    HOST = 'http://kimball.com.es'
+    include Singleton
+    include NodeLoader
+
+    def initialize
+        login
+    end
+
+    private
 
     def login
         puts 'Username:'
@@ -14,8 +23,6 @@ class Client
 
         @cookie_content = cookie_content(username, password)
     end
-
-    private
 
     def cookie_content(username, password)
         response = HTTParty.post("#{HOST}/api/user/login", 
