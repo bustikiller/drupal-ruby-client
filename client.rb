@@ -1,4 +1,3 @@
-require 'io/console'
 require 'httparty'
 require 'cgi'
 require 'singleton'
@@ -9,19 +8,9 @@ class Client
     include Singleton
     include NodeLoader
 
-    def initialize
-        login
-    end
-
-    private
-
-    def login
-        puts 'Username:'
-        username = gets.chomp
-        puts 'Password:'
-        password = STDIN.noecho(&:gets).chomp
-
-        @cookie_content = cookie_content(username, password)
+    def login(username, password)0
+        @cookie_content = cookie_content(username, password) unless @cookie_content
+        self
     end
 
     def cookie_content(username, password)
