@@ -8,4 +8,3 @@ puts 'Password:'
 password = STDIN.noecho(&:gets).chomp
 
 actas = Client.instance.login(username, password).load(type: :acta)
-binding.pry
