@@ -10,7 +10,7 @@ class Client
     include NodeLoader
     include NodeSaver
 
-    def login(username, password)0
+    def login(username, password)
         @cookie_content = cookie_content(username, password) unless @cookie_content
         self
     end
