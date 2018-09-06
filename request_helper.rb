@@ -1,5 +1,4 @@
 module RequestHelper
-    HOST = 'https://kimball.com.es'
     
     private
 

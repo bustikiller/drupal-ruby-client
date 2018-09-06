@@ -12,7 +12,7 @@ module NodeSaver
 
         renew_token
 
-        response = HTTParty.put("#{HOST}/api/node/#{node.nid}", body: node.raw.to_json, headers: headers)
+        response = HTTParty.put("#{@host}/api/node/#{node.nid}", body: node.raw.to_json, headers: headers)
         response.success?
     end
 

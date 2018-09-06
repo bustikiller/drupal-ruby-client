@@ -7,14 +7,14 @@ module NodeLoader
 
     def load(type:)
         with_pagination do |page|
-            HTTParty.get("#{HOST}/api/node?parameters[type]=#{type}&page=#{page}", 
+            HTTParty.get("#{@host}/api/node?parameters[type]=#{type}&page=#{page}", 
                          headers: headers)
             .map{|result| Node.new(result)}
         end
     end
 
     def deep_load(nid:)
-        HTTParty.get("#{HOST}/api/node/#{nid}", headers: headers).parsed_response
+        HTTParty.get("#{@host}/api/node/#{nid}", headers: headers).parsed_response
     end
 
     private
