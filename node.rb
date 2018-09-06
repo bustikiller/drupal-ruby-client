@@ -11,9 +11,23 @@ class Node
 
     def deep_load!
         if !@deep_load
-            @raw = Client.instance.deep_load(nid: @nid)
+            reload!
             @deep_load = true
         end
         return self
+    end
+
+    def deep_load?
+        !!@deep_load
+    end
+
+    def reload!
+        @raw = Client.instance.deep_load(nid: @nid)
+        self
+    end
+
+    def save
+        raise 'Node not deep loaded' unless deep_load?
+        Client.instance.save(self) && reload!
     end
 end

@@ -1,6 +1,9 @@
+require_relative 'node'
+require_relative 'request_helper'
+
 module NodeLoader
-    require_relative 'node'
-    HOST = 'http://kimball.com.es'
+    
+    include RequestHelper
 
     def load(type:)
         with_pagination do |page|
@@ -11,17 +14,10 @@ module NodeLoader
     end
 
     def deep_load(nid:)
-        HTTParty.get("#{HOST}/api/node/#{nid}", headers: headers)
+        HTTParty.get("#{HOST}/api/node/#{nid}", headers: headers).parsed_response
     end
 
     private
-
-    def headers
-        {
-            'Content-Type' => 'application/json', 
-            'Cookie' => @cookie_content
-        }
-    end
 
     def with_pagination
         page = 0

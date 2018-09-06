@@ -8,3 +8,5 @@ puts 'Password:'
 password = STDIN.noecho(&:gets).chomp
 
 actas = Client.instance.login(username, password).load(type: :acta)
+a = actas.first.deep_load!
+binding.pry

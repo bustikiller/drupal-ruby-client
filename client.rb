@@ -3,10 +3,12 @@ require 'cgi'
 require 'singleton'
 
 require_relative 'node_loader'
+require_relative 'node_saver'
 
 class Client
     include Singleton
     include NodeLoader
+    include NodeSaver
 
     def login(username, password)0
         @cookie_content = cookie_content(username, password) unless @cookie_content
@@ -21,7 +23,10 @@ class Client
     end
 
     def token
-        HTTParty.post("#{HOST}/services/session/token", 
-                      headers: {"Content-Type" => "application/json"})
+        @token || renew_token
+    end
+
+    def renew_token
+        @token = HTTParty.post("#{HOST}/services/session/token", headers: headers)
     end
 end
