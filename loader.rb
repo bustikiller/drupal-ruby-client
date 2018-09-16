@@ -7,6 +7,6 @@ username = gets.chomp
 puts 'Password:'
 password = STDIN.noecho(&:gets).chomp
 
-actas = Client.instance.login(username, password, 'https://kimball.com.es').load(type: :acta)
-a = actas.first.deep_load!
+educandos = Client.instance.login(username, password, 'https://kimball.com.es').load(type: :educando)
+e = educandos.first.deep_load!
 binding.pry
