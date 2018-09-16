@@ -7,7 +7,7 @@ module NodeLoader
 
     def load(type:)
         with_pagination do |page|
-            HTTParty.get("#{@host}/api/node?parameters[type]=#{type}&page=#{page}", 
+            HTTParty.get("#{@host}/api/views/last_updates?display_id=services_1&page=#{page}&type=#{type}", 
                          headers: headers)
             .map{|result| Node.new(result)}
         end

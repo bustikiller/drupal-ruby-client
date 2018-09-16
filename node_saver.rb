@@ -31,10 +31,16 @@ module NodeSaver
         date_fields.each do |k, v|
             raw_date = v['und'][0]['value']
             unless raw_date.nil?
-                parsed_date = Date.parse(raw_date).strftime('%m/%d/%Y')
+                parsed_date = parse_date(raw_date).strftime('%m/%d/%Y')
                 copy[k] = {'und' => [{'value' => {'date' => parsed_date }}]}   
             end 
         end
+    end
+
+    def parse_date(date)
+        Date.parse(date)
+    rescue ArgumentError => e
+        DateTime.strptime(date,'%s')
     end
 
     def fix_taxonomy_fields(copy)
