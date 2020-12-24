@@ -17,7 +17,12 @@ module NodeSaver
         renew_token
 
         response = HTTParty.put("#{@host}/api/node/#{node.nid}", body: copy.to_json, headers: headers)
-        response.success?
+        if response.success?
+            return true
+        else
+            puts "Error saving node: [#{response.code}] #{response.body}"
+            return false
+        end
     end
 
     private
@@ -31,14 +36,15 @@ module NodeSaver
         date_fields.each do |k, v|
             raw_date = v['und'][0]['value']
             unless raw_date.nil?
-                parsed_date = parse_date(raw_date).strftime('%m/%d/%Y')
-                copy[k] = {'und' => [{'value' => {'date' => parsed_date }}]}   
+                parsed_date = parse_date(raw_date)
+                copy[k] = {'und' => [{'value' => {'date' => parsed_date }}]}
             end 
         end
     end
 
     def parse_date(date)
-        Date.parse(date)
+        return Time.at(date.to_i).strftime('%d/%m/%Y') if date == date.to_i.to_s
+        Date.parse(date).strftime('%m/%d/%Y')
     rescue ArgumentError => e
         DateTime.strptime(date,'%s')
     end
